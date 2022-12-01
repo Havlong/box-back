@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BoxBackApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BoxBackApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BoxBackApplication.class, args);
+    }
 
 }
