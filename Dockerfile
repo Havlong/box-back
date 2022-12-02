@@ -9,6 +9,7 @@ COPY mvnw /project/backend/
 COPY src/ /project/backend/src/
 COPY pom.xml /project/backend/
 
+RUN chmod +x ./mvnw
 RUN ./mvnw package
 
 EXPOSE 80
