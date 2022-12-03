@@ -11,8 +11,8 @@ import java.util.List;
 public class PackagingServiceImpl implements PackagingService {
     @Override
     public List<Block> solve(List<Block> toPackage, List<Integer> params) {
-        Container container = Container.newBuilder().withMaxLoadWeight(1).withEmptyWeight(0).withSize(params.get(0), params.get(1), params.get(2)).build();
-        LargestAreaFitFirstPackager packager = LargestAreaFitFirstPackager.newBuilder().withContainers(List.of(container)).build();
+        Container container = Container.newBuilder().withMaxLoadWeight(1).withEmptyWeight(0).withSize(params.get(0), params.get(1), params.get(2) * 2).build();
+        LargestAreaFitFirstPackager packager = LargestAreaFitFirstPackager.newBuilder().withContainers(container).build();
 
         List<StackableItem> items = toPackage.stream().map(this::asStackableItem).toList();
         Container match = packager.pack(items);
