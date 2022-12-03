@@ -10,7 +10,7 @@ import magneticcode.boxback.dto.client.ProductParamsDTO;
 import magneticcode.boxback.services.PackagingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ public class PackageController {
     @Autowired
     PackagingService packagingService;
 
-    @GetMapping(path = "/solve", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/solve", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public SolutionDTO solvePackaging(@RequestBody InputDTO inputDTO) {
         List<ShortProductDTO> products = new ArrayList<>();
         List<Block> blocks = new ArrayList<>();
