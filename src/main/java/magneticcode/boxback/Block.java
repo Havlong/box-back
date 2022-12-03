@@ -6,14 +6,22 @@ import java.util.List;
 
 public class Block {
     private final long id;
-    int[] params = new int[3];
-    int[] zero = new int[3];
+    public int[] zero = new int[3];
+    private int[] params = new int[3];
 
     public Block(long id, List<Integer> params) {
         this.id = id;
         this.params[0] = params.get(0);
         this.params[1] = params.get(1);
         this.params[2] = params.get(2);
+    }
+
+    public void setParams(int[] params) {
+        this.params = params;
+    }
+
+    public String getId() {
+        return Long.toHexString(id);
     }
 
     public BlockDTO asDTO() {
