@@ -12,7 +12,7 @@ public class PackagingServiceImpl implements PackagingService {
     @Override
     public List<Block> solve(List<Block> toPackage, List<Integer> params) {
         Container container = Container.newBuilder().withMaxLoadWeight(1).withEmptyWeight(0).withSize(params.get(0), params.get(1), params.get(2)).build();
-        LargestAreaFitFirstPackager packager = LargestAreaFitFirstPackager.newBuilder().withContainers(container).build();
+        LargestAreaFitFirstPackager packager = LargestAreaFitFirstPackager.newBuilder().withContainers(List.of(container)).build();
 
         List<StackableItem> items = toPackage.stream().map(this::asStackableItem).toList();
         Container match = packager.pack(items);
@@ -33,6 +33,6 @@ public class PackagingServiceImpl implements PackagingService {
     }
 
     public StackableItem asStackableItem(Block block) {
-        return new StackableItem(Box.newBuilder().withSize(block.zero[0], block.zero[1], block.zero[2]).withWeight(0).withId(block.getId()).withRotate3D().build());
+        return new StackableItem(Box.newBuilder().withSize(block.getParams()[0], block.getParams()[1], block.getParams()[2]).withWeight(0).withId(block.getId()).withRotate3D().build(), 1);
     }
 }
