@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class Block {
     private final long id;
     public int[] zero = new int[3];
-    private int[] params = new int[3];
+    private final int[] params = new int[3];
 
     public Block(long id, List<Integer> params) {
         this.id = id;
@@ -19,7 +19,7 @@ public class Block {
 
     public void setParams(int[] params) {
         assert Stream.of(params[0], params[1], params[2]).sorted().toList().equals(Stream.of(this.params[0], this.params[1], this.params[2]).sorted().toList());
-        this.params = params;
+//        this.params = params;
     }
 
     public String getId() {
