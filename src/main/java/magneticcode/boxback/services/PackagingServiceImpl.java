@@ -1,9 +1,6 @@
 package magneticcode.boxback.services;
 
-import com.github.skjolber.packing.api.Box;
-import com.github.skjolber.packing.api.Container;
-import com.github.skjolber.packing.api.StackPlacement;
-import com.github.skjolber.packing.api.StackableItem;
+import com.github.skjolber.packing.api.*;
 import com.github.skjolber.packing.packer.laff.LargestAreaFitFirstPackager;
 import magneticcode.boxback.Block;
 import org.springframework.stereotype.Service;
@@ -27,8 +24,10 @@ public class PackagingServiceImpl implements PackagingService {
                 i++;
             }
 
+            StackValue stackedElement = placement.getStackValue();
+
             toPackage.get(i).zero = new int[]{placement.getAbsoluteX(), placement.getAbsoluteY(), placement.getAbsoluteZ()};
-            toPackage.get(i).setParams(new int[]{placement.getAbsoluteEndX() - placement.getAbsoluteX(), placement.getAbsoluteEndY() - placement.getAbsoluteY(), placement.getAbsoluteEndZ() - placement.getAbsoluteZ()});
+            toPackage.get(i).setParams(new int[]{stackedElement.getDx(), stackedElement.getDy(), stackedElement.getDz()});
         }
         return toPackage;
     }
