@@ -26,7 +26,10 @@ public class PackageController {
     @Autowired
     PackagingService packagingService;
 
-    @PostMapping(path = "/solve", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/solve",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public SolutionDTO solvePackaging(@RequestBody InputDTO inputDTO) {
         List<ShortProductDTO> products = new ArrayList<>();
         List<Block> blocks = new ArrayList<>();
@@ -41,7 +44,13 @@ public class PackageController {
             }
         }
 
-        List<BlockDTO> blockList = packagingService.solve(blocks, inputDTO.getDimensions3D()).stream().sorted(Comparator.comparingInt((Block block) -> block.zero[2]).thenComparingInt(block -> block.zero[0]).thenComparingInt(block -> block.zero[1])).map(Block::asDTO).toList();
+        List<BlockDTO> blockList = packagingService.solve(blocks, inputDTO.getDimensions3D())
+                .stream()
+                .sorted(Comparator.comparingInt((Block block) -> block.zero[2])
+                        .thenComparingInt(block -> block.zero[0])
+                        .thenComparingInt(block -> block.zero[1]))
+                .map(Block::asDTO)
+                .toList();
 
         return new SolutionDTO(products, blockList, inputDTO.getDimensions3D());
     }

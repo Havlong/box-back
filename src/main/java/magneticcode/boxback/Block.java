@@ -22,7 +22,10 @@ public class Block {
     }
 
     public void setParams(int[] params) {
-        if (!Stream.of(params[0], params[1], params[2]).sorted().toList().equals(Stream.of(this.params[0], this.params[1], this.params[2]).sorted().toList()))
+        if (!Stream.of(params[0], params[1], params[2])
+                .sorted()
+                .toList()
+                .equals(Stream.of(this.params[0], this.params[1], this.params[2]).sorted().toList()))
             return;
         this.params = params;
     }
