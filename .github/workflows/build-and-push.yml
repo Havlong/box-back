@@ -46,10 +46,10 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/svin_tournament_ui:latest,${{ secrets.DOCKER_HUB_USERNAME }}/svin_tournament_ui:${{ steps.commit.outputs.short }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/box-back:latest,${{ secrets.DOCKER_HUB_USERNAME }}/box-back:${{ steps.commit.outputs.short }}
 
 
-      - name: Redeploy UI
+      - name: Redeploy box-back
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: bash redeploy-box.sh
