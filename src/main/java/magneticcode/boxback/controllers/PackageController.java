@@ -105,8 +105,7 @@ public class PackageController {
                 }
             }
         }
-        if (blocks.size() > 8)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Don't Use so much blocks");
+        if (blocks.size() > 8) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Don't Use so much blocks");
 
         List<BlockDTO> blockList = packagingService.brute(blocks, inputDTO.getDimensions3D())
                 .stream()
