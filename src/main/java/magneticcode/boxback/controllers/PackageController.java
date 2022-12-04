@@ -30,7 +30,7 @@ public class PackageController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public SolutionDTO solvePackaging(@RequestBody InputDTO inputDTO) {
+    public SolutionDTO solveLAFF(@RequestBody InputDTO inputDTO) {
         List<ShortProductDTO> products = new ArrayList<>();
         List<Block> blocks = new ArrayList<>();
 
@@ -45,6 +45,66 @@ public class PackageController {
         }
 
         List<BlockDTO> blockList = packagingService.solve(blocks, inputDTO.getDimensions3D())
+                .stream()
+                .sorted(Comparator.comparingInt((Block block) -> block.zero[2])
+                        .thenComparingInt(block -> block.zero[0] + block.zero[1])
+                        .thenComparingInt(block -> block.zero[1])
+                        .thenComparingInt(block -> block.zero[0]))
+                .map(Block::asDTO)
+                .toList();
+
+        return new SolutionDTO(products, blockList, inputDTO.getDimensions3D());
+    }
+
+    @PostMapping(path = "/volume",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public SolutionDTO solveVolumeBased(@RequestBody InputDTO inputDTO) {
+        List<ShortProductDTO> products = new ArrayList<>();
+        List<Block> blocks = new ArrayList<>();
+
+        for (ProductDTO productDTO : inputDTO.productList()) {
+            for (ProductParamsDTO product : productDTO.productDimensions()) {
+                long id = products.size();
+                products.add(new ShortProductDTO(id, productDTO.name(), product.type()));
+                for (int i = 0; i < product.amount(); i++) {
+                    blocks.add(new Block(id, product.getDimensions3D()));
+                }
+            }
+        }
+
+        List<BlockDTO> blockList = packagingService.plain(blocks, inputDTO.getDimensions3D())
+                .stream()
+                .sorted(Comparator.comparingInt((Block block) -> block.zero[2])
+                        .thenComparingInt(block -> block.zero[0] + block.zero[1])
+                        .thenComparingInt(block -> block.zero[1])
+                        .thenComparingInt(block -> block.zero[0]))
+                .map(Block::asDTO)
+                .toList();
+
+        return new SolutionDTO(products, blockList, inputDTO.getDimensions3D());
+    }
+
+    @PostMapping(path = "/brutal",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public SolutionDTO solveBF(@RequestBody InputDTO inputDTO) {
+        List<ShortProductDTO> products = new ArrayList<>();
+        List<Block> blocks = new ArrayList<>();
+
+        for (ProductDTO productDTO : inputDTO.productList()) {
+            for (ProductParamsDTO product : productDTO.productDimensions()) {
+                long id = products.size();
+                products.add(new ShortProductDTO(id, productDTO.name(), product.type()));
+                for (int i = 0; i < product.amount(); i++) {
+                    blocks.add(new Block(id, product.getDimensions3D()));
+                }
+            }
+        }
+
+        List<BlockDTO> blockList = packagingService.brute(blocks, inputDTO.getDimensions3D())
                 .stream()
                 .sorted(Comparator.comparingInt((Block block) -> block.zero[2])
                         .thenComparingInt(block -> block.zero[0] + block.zero[1])
