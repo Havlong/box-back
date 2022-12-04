@@ -9,11 +9,13 @@ import magneticcode.boxback.dto.client.ProductDTO;
 import magneticcode.boxback.dto.client.ProductParamsDTO;
 import magneticcode.boxback.services.PackagingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -103,6 +105,8 @@ public class PackageController {
                 }
             }
         }
+        if (blocks.size() > 8)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Don't Use so much blocks");
 
         List<BlockDTO> blockList = packagingService.brute(blocks, inputDTO.getDimensions3D())
                 .stream()
